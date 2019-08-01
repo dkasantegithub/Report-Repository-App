@@ -1,0 +1,40 @@
+{% extends "layout.html"%}
+
+{% block title %} Account-Registration-Page {% endblock %}
+
+{% block body %}
+<h1>Create An Account Here</h1>
+
+<form id="form">
+    <div>
+        <input id="username" type="text" placeholder="username" autocomplete="off" autofocus>
+    </div> <br>
+    <div>
+        <input id="password" type="password" placeholder="password" autocomplete="off" autofocus>
+    </div> <br>
+    <div>
+        <input id="confirm_password" type="password" placeholder="confirm password" autocomplete="off" autofocus>
+    </div> <br>
+    <div>
+        <select id="portfolio">
+            <option value="select">select ur portfolio</option>
+            <option value="president">President</option>
+            <option value="vice-president">Vice President</option>
+            <option value="financial-secretary">Financial Secretary</option>
+            <option value="general-secretary">General Secretary</option>
+            <option value="ladies-head">Ladies Head</option>
+            <option value="organizing-head">Organizing Head</option>
+            <option value="music-head">Music Head</option>
+            <option value="prayer-head">Prayer Head</option>
+            <option value="evangelism-head">Evangelism Head</option>
+        </select>
+    </div> <br>
+    <div>
+        <input id="submit" type="submit" value="Create">
+    </div>
+ </form>
+
+{% endblock %}
+
+
+   
