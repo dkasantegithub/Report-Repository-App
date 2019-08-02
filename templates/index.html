@@ -5,33 +5,52 @@
 {% block body %}
 <h1>Create An Account Here</h1>
 
-<form id="form">
+<form id="form" action="{{ url_for('index')}}" method="POST">
+     {{ form.csrf_token }}
+
+    <!-- Username Field -->
     <div>
-        <input id="username" type="text" placeholder="username" autocomplete="off" autofocus>
+        {{ form.username(class_='form-control', placeholder='Username', autocomplete='off', autofocus=true)}}
+
+        <!-- print validator errors -->
+        {% for error in form.username.errors %}
+        <p>* {{ error }}</p>
+        {% endfor %}
     </div> <br>
+
+    <!-- Password Field -->
     <div>
-        <input id="password" type="password" placeholder="password" autocomplete="off" autofocus>
+        {{ form.password(class_='form-control', placeholder='Password')}}
+
+        <!-- print validator errors -->
+        {% for error in form.password.errors %}
+        <p>* {{ error }}</p>
+        {% endfor %}
     </div> <br>
+
+    <!-- Confirmation Password Field -->
     <div>
-        <input id="confirm_password" type="password" placeholder="confirm password" autocomplete="off" autofocus>
+        {{ form.confirm_pwd(class_='form-control', placeholder='Confirm Password')}}
+
+        <!-- print validator errors -->
+         {% for error in form.confirm_pwd.errors %}
+         <p>* {{ error }}</p>
+         {% endfor %}
     </div> <br>
-    <div>
-        <select id="portfolio">
-            <option value="select">select ur portfolio</option>
-            <option value="president">President</option>
-            <option value="vice-president">Vice President</option>
-            <option value="financial-secretary">Financial Secretary</option>
-            <option value="general-secretary">General Secretary</option>
-            <option value="ladies-head">Ladies Head</option>
-            <option value="organizing-head">Organizing Head</option>
-            <option value="music-head">Music Head</option>
-            <option value="prayer-head">Prayer Head</option>
-            <option value="evangelism-head">Evangelism Head</option>
-        </select>
+
+    <!-- Portfolio Field -->
+    <div> {{ form.portfolios(class_='form-control')}}
+
+        <!-- print validator errors -->
+        {% for error in form.portfolios.errors %}
+        <p>* {{ error }}</p>
+        {% endfor %}
+        
     </div> <br>
-    <div>
-        <input id="submit" type="submit" value="Create">
-    </div>
+   
+    <!-- Submit button Field -->
+    <div>  {{ form.submit_btn}} </div>
+   
  </form>
 
 {% endblock %}

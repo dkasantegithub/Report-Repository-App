@@ -1,0 +1,36 @@
+{% extends 'layout.html'%}
+
+{% block title %} Login-Page {% endblock %}
+
+{% block body %}
+<h2>Login Now!</h2>
+<p>Enter Username & Password to Login!!!</p>
+<form action="{{ url_for('login')}}" method='POST'>
+    {{ form.csrf_token }}
+
+    <!-- Username Field -->
+<div> 
+    {{ form.username(class_='form-control', placeholder='Username', autocomplete='off', autofocus=true)}}
+
+    <!-- print validator errors -->
+    {% for error in form.username.errors %}
+    <p>* {{ error }}</p>
+    {% endfor %}
+</div><br>
+
+   <!-- Password Field -->
+<div>
+    {{ form.password(class_='form-control', placeholder='Password')}}
+
+    <!-- print validator errors -->
+    {% for error in form.password.errors %}
+    <p>* {{ error }}</p>
+    {% endfor %}
+</div><br>
+
+    <!-- Submit button Field -->
+    <div> {{ form.submit_btn}} </div>
+
+</form>
+
+{% endblock %}
