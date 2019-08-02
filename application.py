@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, flash
 # Helps to login,logout,restrict users to a page,etc
 from flask_login import LoginManager, login_user, current_user, logout_user
 from forms import *
@@ -39,6 +39,9 @@ def index():
         user = User(username=username, password=hashed_pwd, portfolios=portfolios)
         db.session.add(user)
         db.session.commit()
+
+        flash('Registered successfully. Please login!', 'success')
+
         return redirect(url_for('login'))
 
     return render_template('index.html', form=form)
@@ -61,6 +64,7 @@ def login():
 @app.route('/report', methods=['GET', 'POST'])
 def report():
     if not current_user.is_authenticated:
+        flash('Please login!', 'danger')
         return redirect(url_for('login'))
     
     return 'Pls Upload your Report'
@@ -70,7 +74,8 @@ def report():
 @app.route('/logout', methods=['GET'])
 def logout():
     logout_user()
-    return 'Logged out successfully'
+    flash('You have logged out successfully', 'success')
+    return redirect(url_for('login'))
 
 
 
