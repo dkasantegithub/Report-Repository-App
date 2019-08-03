@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %} file upload page{% endblock %}
+
+{% block body %}
+<form action="{{url_for('report')}}" method="post" enctype="multipart/form-data" >
+    <h1>Upload your Report Here</h1>
+    <input type="file" name="file" id="file">
+    <input type="submit" value="Upload">
+</form>
+
+{% endblock %}

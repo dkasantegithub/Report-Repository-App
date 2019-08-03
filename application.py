@@ -1,8 +1,13 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, request,flash
+from werkzeug.utils import secure_filename
 # Helps to login,logout,restrict users to a page,etc
 from flask_login import LoginManager, login_user, current_user, logout_user
+
+
+import os
 from forms import *
 from models import *
+
 
 # Configure App
 app = Flask(__name__)
@@ -61,14 +66,45 @@ def login():
     return render_template('login.html', form=login_form)
 
 
+# Allowed file extensions
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'doc', 'docx', 'ppt', 'pptx'}
+
+# Checks whether file extension is valid / validates file extension
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/report', methods=['GET', 'POST'])
 def report():
-    if not current_user.is_authenticated:
-        flash('Please login!', 'danger')
-        return redirect(url_for('login'))
-    
-    return 'Pls Upload your Report'
+    # if not current_user.is_authenticated:
+    #     flash('Please login!', 'danger')
+    #     return redirect(url_for('login'))
 
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            db_file = File(file_name=file.filename, file_data=file.read())
+            db.session.add(db_file)
+            db.session.commit()
+            return 'File Upload Successful'
+        else:
+            flash('file extension is not allowed!!!')
+            return redirect(request.url)
+           
+
+    return render_template('upload_file.html')
 
 
 @app.route('/logout', methods=['GET'])
